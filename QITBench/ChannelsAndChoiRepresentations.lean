@@ -1,0 +1,27 @@
+/-
+Copyright (c) 2026 QuAIR. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: QuAIR Team
+-/
+
+module
+
+public import QITBench.ChannelsAndChoiRepresentations.UnitaritySystemEnvironmentEvolution
+public import QITBench.ChannelsAndChoiRepresentations.KrausRepresentationSystemEnvironmentUnitary
+public import QITBench.ChannelsAndChoiRepresentations.PartialTraceCompletelyPositiveTracePreservingMap
+public import QITBench.ChannelsAndChoiRepresentations.TracePreservationChoiRepresentation
+public import QITBench.ChannelsAndChoiRepresentations.UnitalityChoiRepresentation
+public import QITBench.ChannelsAndChoiRepresentations.ChoiMatrixActingCanonicalInputState
+public import QITBench.ChannelsAndChoiRepresentations.ChoiPositivityCharacterizationCompletePositivity
+public import QITBench.ChannelsAndChoiRepresentations.FixedPointEveryTracePreservingQuantumOperation
+public import QITBench.ChannelsAndChoiRepresentations.PrimitivityNondegeneracyStationaryEigenvalue
+public import QITBench.ChannelsAndChoiRepresentations.PartialSWAPMarginalSplitter
+public import QITBench.ChannelsAndChoiRepresentations.HadamardChannelDephasingIsometry
+
+/-!
+# ChannelsAndChoiRepresentations
+
+Benchmark problem modules in the `ChannelsAndChoiRepresentations` category.
+-/
+
+@[expose] public section

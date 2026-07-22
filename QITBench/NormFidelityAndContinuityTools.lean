@@ -1,0 +1,26 @@
+/-
+Copyright (c) 2026 QuAIR. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: QuAIR Team
+-/
+
+module
+
+public import QITBench.NormFidelityAndContinuityTools.TraceNormUnitaryOptimization
+public import QITBench.NormFidelityAndContinuityTools.VariationalCharacterizationTraceNorm
+public import QITBench.NormFidelityAndContinuityTools.MaximallyEntangledStateHilbertSchmidtInnerProduct
+public import QITBench.NormFidelityAndContinuityTools.TraceDistanceLowerBoundPureState
+public import QITBench.NormFidelityAndContinuityTools.TraceDistanceDataProcessingQuantumChannels
+public import QITBench.NormFidelityAndContinuityTools.FuchsVanDeGraafInequalities
+public import QITBench.NormFidelityAndContinuityTools.GentleMeasurementLemmaNormalizedPostMeasurementState
+public import QITBench.NormFidelityAndContinuityTools.AlbertiSTheoremCommutingCase
+public import QITBench.NormFidelityAndContinuityTools.UniversalUpperBoundAlbertiSTheorem
+public import QITBench.NormFidelityAndContinuityTools.ChannelFidelityGateFidelityPureInputState
+
+/-!
+# NormFidelityAndContinuityTools
+
+Benchmark problem modules in the `NormFidelityAndContinuityTools` category.
+-/
+
+@[expose] public section

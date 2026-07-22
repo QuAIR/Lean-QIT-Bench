@@ -1,0 +1,3 @@
+module
+
+public import QITBench.NormFidelityAndContinuityTools.MaximallyEntangledStateHilbertSchmidtInnerProduct.Statement

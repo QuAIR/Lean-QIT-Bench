@@ -1,0 +1,3 @@
+module
+
+public import QITBench.EntropyCodingAndInformationInequalities.RandomUnitaryRealizationCompletelyDepolarizingChannel.Statement

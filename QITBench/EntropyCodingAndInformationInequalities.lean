@@ -1,0 +1,25 @@
+/-
+Copyright (c) 2026 QuAIR. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: QuAIR Team
+-/
+
+module
+
+public import QITBench.EntropyCodingAndInformationInequalities.NegativeConditionalEntropyEntanglementPureBipartiteStates
+public import QITBench.EntropyCodingAndInformationInequalities.RandomUnitaryRealizationCompletelyDepolarizingChannel
+public import QITBench.EntropyCodingAndInformationInequalities.UniquenessMaximumEntropyState
+public import QITBench.EntropyCodingAndInformationInequalities.ProjectiveMeasurementRandomUnitaryChannel
+public import QITBench.EntropyCodingAndInformationInequalities.EntropyIncreaseUnderNonSelectiveProjectiveMeasurement
+public import QITBench.EntropyCodingAndInformationInequalities.ConvexityQuantumMutualInformation
+public import QITBench.EntropyCodingAndInformationInequalities.HolevoBoundClassicalCapacityNQubits
+public import QITBench.EntropyCodingAndInformationInequalities.QuantumFanoInequality
+public import QITBench.EntropyCodingAndInformationInequalities.SpectrumEntropySingleQubitSource
+
+/-!
+# EntropyCodingAndInformationInequalities
+
+Benchmark problem modules in the `EntropyCodingAndInformationInequalities` category.
+-/
+
+@[expose] public section

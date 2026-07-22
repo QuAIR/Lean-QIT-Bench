@@ -1,0 +1,3 @@
+module
+
+public import QITBench.OneShotEntropiesAndHypothesisTesting.AchievabilityEntanglementConcentration.Statement
