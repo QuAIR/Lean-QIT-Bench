@@ -1,13 +1,12 @@
+/-
+Copyright (c) 2026 QuAIR.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: QuAIR Team
+-/
+
 module
 
 public import QITBench.Base
-
-/-!
-# No Maximally Entangled Vector in the Qutrit Antisymmetric Subspace
-
-Bipartite qutrit pure vectors are represented by `PureVector (Fin 3 × Fin 3)`;
-the coefficient matrix is read from the vector amplitudes.
--/
 
 @[expose] public section
 
@@ -40,7 +39,7 @@ def IsInvertibleMatrix
 
 def IsMaximallyEntangledVector
     (psi : PureVector (Fin 3 × Fin 3)) : Prop :=
-  IsInvertibleMatrix (coefficientMatrix psi)
+  psi.state.marginalA.matrix = (1 / 3 : ℂ) • (1 : CMatrix (Fin 3))
 
 end
 

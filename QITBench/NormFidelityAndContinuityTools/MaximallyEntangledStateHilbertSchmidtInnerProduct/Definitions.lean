@@ -1,13 +1,12 @@
+/-
+Copyright (c) 2026 QuAIR.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: QuAIR Team
+-/
+
 module
 
 public import QITBench.Base
-
-/-!
-# Maximally Entangled State Hilbert--Schmidt Inner Product
-
-The maximally entangled expectation is represented as the finite basis double
-sum and related to the usual trace pairings.
--/
 
 @[expose] public section
 

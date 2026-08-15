@@ -1,13 +1,12 @@
+/-
+Copyright (c) 2026 QuAIR.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: QuAIR Team
+-/
+
 module
 
 public import QITBench.Base
-
-/-!
-# Alberti's Theorem, Commuting Case
-
-For commuting states, Alberti's variational fidelity reduces to the classical
-fidelity of their common diagonal probability weights.
--/
 
 @[expose] public section
 

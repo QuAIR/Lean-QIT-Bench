@@ -14,10 +14,4 @@ public import QITBench.MixedUnitaryObstructionsAndSymmetry.AntisymmetricProjecto
 public import QITBench.MixedUnitaryObstructionsAndSymmetry.DimensionSymmetricSubspaceThreeCopies
 public import QITBench.MixedUnitaryObstructionsAndSymmetry.DimensionAntisymmetricSubspaceThreeCopies
 
-/-!
-# MixedUnitaryObstructionsAndSymmetry
-
-Benchmark problem modules in the `MixedUnitaryObstructionsAndSymmetry` category.
--/
-
 @[expose] public section

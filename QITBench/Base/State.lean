@@ -9,17 +9,6 @@ module
 public import QITBench.Base.System
 public import QITBench.Base.Util.Matrix
 
-/-!
-# Finite-dimensional states
-
-Density states are positive semidefinite complex matrices with trace one.
-Product states are represented by Kronecker products, matching tensor-product
-state notation in the source material [Tomamichel2015FiniteResources,
-prelim.tex:38-43], product-state usage in [Wilde2011Qst,
-qit-notes.tex:7294-7299], and IID factorization in [Wilde2011Qst,
-qit-notes.tex:1888-1920].
--/
-
 @[expose] public section
 
 open scoped ComplexOrder MatrixOrder
@@ -30,7 +19,6 @@ universe u v w
 
 noncomputable section
 
-/-- A finite-dimensional density state. -/
 structure State (a : Type u) [Fintype a] [DecidableEq a] where
   matrix : CMatrix a
   pos : matrix.PosSemidef
@@ -41,7 +29,6 @@ namespace State
 variable {a : Type u} {b : Type v} {c : Type w}
 variable [Fintype a] [DecidableEq a] [Fintype b] [DecidableEq b]
 
-/-- Density states are equal when their matrices are equal. -/
 @[ext]
 theorem ext {rho sigma : State a} (h : rho.matrix = sigma.matrix) : rho = sigma := by
   cases rho
@@ -49,7 +36,6 @@ theorem ext {rho sigma : State a} (h : rho.matrix = sigma.matrix) : rho = sigma 
   cases h
   rfl
 
-/-- A normalized finite-dimensional state has a nonempty index type. -/
 theorem nonempty (rho : State a) : Nonempty a := by
   classical
   by_contra h
@@ -57,7 +43,66 @@ theorem nonempty (rho : State a) : Nonempty a := by
   have htrace := rho.trace_eq_one
   simp [Matrix.trace] at htrace
 
-/-- The unique density state on the unit system. -/
+theorem trace_re_eq_one (rho : State a) : rho.matrix.trace.re = 1 := by
+  rw [rho.trace_eq_one]
+  norm_num
+
+theorem trace_re_pos (rho : State a) : 0 < rho.matrix.trace.re := by
+  rw [rho.trace_re_eq_one]
+  norm_num
+
+theorem trace_re_ne_zero (rho : State a) : rho.matrix.trace.re ≠ 0 :=
+  rho.trace_re_pos.ne'
+
+theorem density_matrix_ne_zero (rho : State a) : rho.matrix ≠ 0 := by
+  intro hzero
+  have htrace : rho.matrix.trace = 0 := by simp [hzero]
+  rw [rho.trace_eq_one] at htrace
+  norm_num at htrace
+
+omit [DecidableEq a] in
+theorem posSemidef_trace_ne_zero_of_ne_zero
+    {M : CMatrix a} (hM : M.PosSemidef) (hM_ne : M ≠ 0) :
+    M.trace.re ≠ 0 := by
+  intro htrace_re
+  have htrace : M.trace = 0 := by
+    apply Complex.ext
+    · exact htrace_re
+    · exact (Matrix.PosSemidef.trace_nonneg hM).2.symm
+  exact hM_ne ((Matrix.PosSemidef.trace_eq_zero_iff hM).mp htrace)
+
+omit [DecidableEq a] in
+theorem posSemidef_trace_pos_of_ne_zero
+    {M : CMatrix a} (hM : M.PosSemidef) (hM_ne : M ≠ 0) :
+    0 < M.trace.re :=
+  lt_of_le_of_ne (Matrix.PosSemidef.trace_nonneg hM).1
+    (posSemidef_trace_ne_zero_of_ne_zero hM hM_ne).symm
+
+def normalizePSD (M : CMatrix a) (hM : M.PosSemidef) (htr_ne : M.trace.re ≠ 0) :
+    State a where
+  matrix := (M.trace.re)⁻¹ • M
+  pos := Matrix.PosSemidef.smul hM (by
+    have htr_pos : 0 < M.trace.re :=
+      lt_of_le_of_ne (Matrix.PosSemidef.trace_nonneg hM).1 htr_ne.symm
+    exact_mod_cast inv_nonneg.mpr htr_pos.le)
+  trace_eq_one := by
+    rw [Matrix.trace_smul]
+    have htrace_im : M.trace.im = 0 := (Matrix.PosSemidef.trace_nonneg hM).2.symm
+    apply Complex.ext
+    · simp [Complex.real_smul, htr_ne]
+    · simp [Complex.real_smul, htrace_im]
+
+@[simp]
+theorem normalizePSD_matrix (M : CMatrix a) (hM : M.PosSemidef)
+    (htr_ne : M.trace.re ≠ 0) :
+    (normalizePSD M hM htr_ne).matrix = (M.trace.re)⁻¹ • M :=
+  rfl
+
+theorem normalizePSD_self (rho : State a) :
+    normalizePSD rho.matrix rho.pos rho.trace_re_ne_zero = rho := by
+  ext i j
+  simp [normalizePSD, rho.trace_re_eq_one]
+
 def unit : State PUnit where
   matrix := 1
   pos := Matrix.PosSemidef.one
@@ -65,7 +110,6 @@ def unit : State PUnit where
     rw [Matrix.trace_one]
     norm_num
 
-/-- Relabel a density state along a finite basis equivalence. -/
 def reindex {α : Type u} {β : Type v}
     [Fintype α] [DecidableEq α] [Fintype β] [DecidableEq β]
     (rho : State α) (e : α ≃ β) : State β where
@@ -89,7 +133,6 @@ theorem reindex_refl (rho : State a) :
   ext i j
   rfl
 
-/-- Product state as a Kronecker product. -/
 def prod (rho : State a) (sigma : State b) : State (Prod a b) where
   matrix := Matrix.kronecker rho.matrix sigma.matrix
   pos := rho.pos.kronecker sigma.pos
@@ -98,28 +141,38 @@ def prod (rho : State a) (sigma : State b) : State (Prod a b) where
     rw [Matrix.trace_kronecker, rho.trace_eq_one, sigma.trace_eq_one]
     norm_num
 
-/-- `Tr_A (rho_A tensor sigma_B) = sigma_B`. -/
+theorem prod_posDef {rho : State a} {sigma : State b}
+    (hρ : rho.matrix.PosDef) (hσ : sigma.matrix.PosDef) :
+    (rho.prod sigma).matrix.PosDef := by
+  change (Matrix.kronecker rho.matrix sigma.matrix).PosDef
+  exact hρ.kronecker hσ
+
+def identityTensorStateMatrix (sigma : State b) : CMatrix (Prod a b) :=
+  Matrix.kronecker (1 : CMatrix a) sigma.matrix
+
+theorem identityTensorStateMatrix_posSemidef (sigma : State b) :
+    (identityTensorStateMatrix (a := a) sigma).PosSemidef := by
+  change (Matrix.kronecker (1 : CMatrix a) sigma.matrix).PosSemidef
+  exact Matrix.PosSemidef.one.kronecker sigma.pos
+
 theorem partialTraceA_prod (rho : State a) (sigma : State b) :
     partialTraceA (a := a) (b := b) (rho.prod sigma).matrix = sigma.matrix := by
   rw [prod, partialTraceA_kronecker, rho.trace_eq_one]
   ext j j'
   simp [matrixScale]
 
-/-- `Tr_B (rho_A tensor sigma_B) = rho_A`. -/
 theorem partialTraceB_prod (rho : State a) (sigma : State b) :
     partialTraceB (a := a) (b := b) (rho.prod sigma).matrix = rho.matrix := by
   rw [prod, partialTraceB_kronecker, sigma.trace_eq_one]
   ext i i'
   simp [matrixScale]
 
-/-- Marginal state on the first subsystem. -/
 def marginalA (rho : State (Prod a b)) : State a where
   matrix := partialTraceB (a := a) (b := b) rho.matrix
   pos := partialTraceB_posSemidef rho.pos
   trace_eq_one := by
     rw [partialTraceB_trace, rho.trace_eq_one]
 
-/-- Marginal state on the second subsystem. -/
 def marginalB (rho : State (Prod a b)) : State b where
   matrix := partialTraceA (a := a) (b := b) rho.matrix
   pos := partialTraceA_posSemidef rho.pos
@@ -148,11 +201,9 @@ theorem marginalA_reindex_prodCongr {α : Type u} {β : Type v} {γ : Type w} {�
 
 variable [Fintype c] [DecidableEq c]
 
-/-- Marginal state on `AB` from a left-associated tripartite state `ABC`. -/
 def marginalAB (rho : State (Prod (Prod a b) c)) : State (Prod a b) :=
   marginalA rho
 
-/-- Marginal state on `BC` from a left-associated tripartite state `ABC`. -/
 def marginalBC (rho : State (Prod (Prod a b) c)) : State (Prod b c) where
   matrix := fun bc bc' =>
     Finset.univ.sum fun i : a => rho.matrix ((i, bc.1), bc.2) ((i, bc'.1), bc'.2)
@@ -187,7 +238,6 @@ def marginalBC (rho : State (Prod (Prod a b) c)) : State (Prod b c) where
       _ = ∑ x : Prod (Prod a b) c, rho.matrix x x := by
         simp [Fintype.sum_prod_type]
 
-/-- Marginal state on `AC` from a left-associated tripartite state `ABC`. -/
 def marginalAC (rho : State (Prod (Prod a b) c)) : State (Prod a c) where
   matrix := fun ac ac' =>
     Finset.univ.sum fun j : b => rho.matrix ((ac.1, j), ac.2) ((ac'.1, j), ac'.2)
@@ -223,7 +273,6 @@ def marginalAC (rho : State (Prod (Prod a b) c)) : State (Prod a c) where
         simp [Fintype.sum_prod_type]
         rw [Finset.sum_comm]
 
-/-- Marginal state on `B` from a left-associated tripartite state `ABC`. -/
 def marginalBOfABC (rho : State (Prod (Prod a b) c)) : State b :=
   rho.marginalAB.marginalB
 
@@ -242,24 +291,16 @@ theorem marginalAC_matrix (rho : State (Prod (Prod a b) c)) :
         Finset.univ.sum fun j : b =>
           rho.matrix ((ac.1, j), ac.2) ((ac'.1, j), ac'.2) := rfl
 
-/-- IID tensor power of a density state. -/
 def tensorPower (rho : State a) : (n : Nat) -> State (TensorPower a n)
   | 0 => unit
   | n + 1 => rho.prod (tensorPower rho n)
 
-/-- The zeroth tensor power is the unit-system state. -/
 theorem tensorPower_zero (rho : State a) :
     tensorPower rho 0 = unit := rfl
 
-/-- Successor tensor powers unfold as a product with one more IID factor. -/
 theorem tensorPower_succ (rho : State a) (n : Nat) :
     tensorPower rho (n + 1) = rho.prod (tensorPower rho n) := rfl
 
-/-- IID tensor power of a bipartite state, read as `A^n × B^n`.
-
-The underlying matrix is the ordinary IID tensor power of the `AB` state,
-transported across `tensorPowerProdEquiv`.
--/
 def tensorPowerBipartite (rho : State (Prod a b)) (n : Nat) :
     State (Prod (TensorPower a n) (TensorPower b n)) :=
   (rho.tensorPower n).reindex (tensorPowerProdEquiv a b n)
@@ -287,8 +328,6 @@ theorem tensorPowerBipartite_marginalB_matrix (rho : State (Prod a b)) (n : Nat)
           (tensorPowerProdEquiv a b n).symm
           (tensorPowerProdEquiv a b n).symm) := rfl
 
-/-- The `A^n` marginal of the IID bipartite tensor power is the IID tensor
-power of the `A` marginal. -/
 theorem tensorPowerBipartite_marginalA (rho : State (Prod a b)) :
     (n : Nat) -> (rho.tensorPowerBipartite n).marginalA =
       (rho.marginalA).tensorPower n
@@ -339,8 +378,6 @@ theorem tensorPowerBipartite_marginalA (rho : State (Prod a b)) :
                     (fun i : b => rho.matrix (x0, i) (y0, i))
                     (((rho.marginalA).tensorPower n).matrix xs ys)).symm
 
-/-- The `B^n` marginal of the IID bipartite tensor power is the IID tensor
-power of the `B` marginal. -/
 theorem tensorPowerBipartite_marginalB (rho : State (Prod a b)) :
     (n : Nat) -> (rho.tensorPowerBipartite n).marginalB =
       (rho.marginalB).tensorPower n

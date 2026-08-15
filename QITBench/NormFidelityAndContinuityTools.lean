@@ -17,10 +17,4 @@ public import QITBench.NormFidelityAndContinuityTools.AlbertiSTheoremCommutingCa
 public import QITBench.NormFidelityAndContinuityTools.UniversalUpperBoundAlbertiSTheorem
 public import QITBench.NormFidelityAndContinuityTools.ChannelFidelityGateFidelityPureInputState
 
-/-!
-# NormFidelityAndContinuityTools
-
-Benchmark problem modules in the `NormFidelityAndContinuityTools` category.
--/
-
 @[expose] public section

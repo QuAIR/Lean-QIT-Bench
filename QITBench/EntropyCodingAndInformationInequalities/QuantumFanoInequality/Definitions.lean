@@ -1,15 +1,12 @@
+/-
+Copyright (c) 2026 QuAIR.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: QuAIR Team
+-/
+
 module
 
 public import QITBench.Base
-
-/-!
-# Quantum Fano Inequality
-
-The input state is a `State`, the purification is a `PureVector`, and the noisy
-evolution is a `Channel` applied to the second subsystem via a product channel.
-Entropy is the finite-dimensional spectral von Neumann entropy, not an arbitrary
-bound predicate.
--/
 
 @[expose] public section
 

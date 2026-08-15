@@ -1,14 +1,12 @@
+/-
+Copyright (c) 2026 QuAIR.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: QuAIR Team
+-/
+
 module
 
-public import QITBench.Base
-
-/-!
-# Gentle Measurement Lemma for the Normalized Post-Measurement State
-
-The input density operator is a `State`; the measurement effect is represented
-as a positive matrix bounded above by the identity. The square root and trace
-norm are concrete finite-dimensional matrix-CFC constructions.
--/
+public import QITBench.Base.Fidelity
 
 @[expose] public section
 
@@ -21,12 +19,12 @@ noncomputable section
 noncomputable def matrixSqrt
     {n : ℕ}
     (A : CMatrix (Fin n)) : CMatrix (Fin n) :=
-  CFC.sqrt A
+  Fidelity.matrixSqrt A
 
 noncomputable def traceNorm
     {n : ℕ}
     (A : CMatrix (Fin n)) : ℝ :=
-  Complex.re (Matrix.trace (matrixSqrt (A.conjTranspose * A)))
+  Fidelity.traceNorm A
 
 def IsPositiveOperator
     {n : ℕ}

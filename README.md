@@ -1,31 +1,20 @@
 # Lean-QIT-Bench
 
-`Lean-QIT-Bench` is a Lean benchmark for quantum-information-theory agent
-provers. This repository is a generated mirror of the reviewed public
-benchmark surface.
+[![arXiv](https://img.shields.io/badge/arXiv-2607.21533-b31b1b.svg)](https://arxiv.org/abs/2607.21533)
 
-Each problem provides:
+A Lean benchmark for quantum-information-theory agent provers.
 
-- a TeX statement for human and agent reading;
-- Lean definitions and a Lean statement with a `sorry` proof target;
-- optional Lean hints when they are part of the published problem.
+## Contents
 
-## Layout
+- `QITBench/`: Lean benchmark modules and shared foundations.
+- `QITBench-TeX/`: TeX problem statements and shared macros.
+- Each problem pairs a TeX statement with Lean declarations and a theorem goal;
+  some problems also provide public hints.
 
-- `QITBench/`: modular Lean statements and the benchmark-local Base library.
-- `QITBench-TeX/`: TeX statements and shared macros.
-- `lean-toolchain` and `lakefile.toml`: Lean package configuration.
+## Build
 
-Each Lean problem exposes:
-
-- `QITBench/<Category>/<ProblemName>.lean`: the problem wrapper;
-- `QITBench/<Category>/<ProblemName>/Definitions.lean`: supporting definitions;
-- `QITBench/<Category>/<ProblemName>/Hints.lean`: optional hints;
-- `QITBench/<Category>/<ProblemName>/Statement.lean`: the theorem with the proof target.
-
-An absent `Hints.lean` means that the problem publishes no hints. To check the
-complete package, install the pinned Lean toolchain and run:
+Install the pinned Lean toolchain, then run:
 
 ```bash
-lake build
+lake build QITBench
 ```

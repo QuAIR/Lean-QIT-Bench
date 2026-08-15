@@ -6,10 +6,4 @@ Authors: QuAIR Team
 
 module
 
-/-!
-# QIT core components
-
-Header for common source-backed constructions built from `QITBench.Base`.
--/
-
 @[expose] public section

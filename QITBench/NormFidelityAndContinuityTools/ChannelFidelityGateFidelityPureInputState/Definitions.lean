@@ -1,14 +1,12 @@
+/-
+Copyright (c) 2026 QuAIR.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: QuAIR Team
+-/
+
 module
 
 public import QITBench.Base
-
-/-!
-# Channel Fidelity and Gate Fidelity for a Pure Input State
-
-The Kraus channel and pure input are expressed through the QITBench Base
-primitives `MatrixMap.ofKraus`, `PureVector`, and `rankOneMatrix`.  The equality
-for pure inputs does not require selecting a preferred Kraus representation.
--/
 
 @[expose] public section
 

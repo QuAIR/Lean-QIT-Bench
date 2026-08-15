@@ -1,13 +1,12 @@
+/-
+Copyright (c) 2026 QuAIR.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: QuAIR Team
+-/
+
 module
 
 public import QITBench.Base
-
-/-!
-# Kraus Representation from a System--Environment Unitary
-
-The reduced channel uses Base partial trace, and the Kraus channel is
-`MatrixMap.ofKraus`.
--/
 
 @[expose] public section
 

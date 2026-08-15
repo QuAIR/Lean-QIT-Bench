@@ -1,14 +1,12 @@
+/-
+Copyright (c) 2026 QuAIR.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: QuAIR Team
+-/
+
 module
 
 public import QITBench.Base
-
-/-!
-# Convexity of Quantum Mutual Information
-
-Partial traces are taken from `QITBench.Base`. Entropy is the concrete spectral
-von Neumann entropy on positive semidefinite matrices, so the theorem no longer
-takes witness hypotheses that simply assert non-convexity/non-concavity.
--/
 
 @[expose] public section
 

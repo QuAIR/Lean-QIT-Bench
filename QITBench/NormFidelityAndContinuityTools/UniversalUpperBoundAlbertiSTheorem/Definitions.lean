@@ -1,13 +1,12 @@
+/-
+Copyright (c) 2026 QuAIR.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: QuAIR Team
+-/
+
 module
 
 public import QITBench.Base
-
-/-!
-# Universal Upper Bound from Alberti's Theorem
-
-Density operators are `State`s. The positive invertible variational operator is
-kept local because Base has no bundled positive-invertible operator type.
--/
 
 @[expose] public section
 

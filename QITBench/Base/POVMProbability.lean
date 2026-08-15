@@ -10,14 +10,6 @@ public import QITBench.Base.Channel
 public import Mathlib.Data.Complex.BigOperators
 public import Mathlib.Data.NNReal.Basic
 
-/-!
-# POVM outcome probabilities
-
-Finite POVM outcome probabilities are extracted from the measured classical
-state of `Channel.measure`, following the Born-rule measurement map
-[Tomamichel2015FiniteResources, prelim.tex:813-817].
--/
-
 @[expose] public section
 
 open scoped ComplexOrder MatrixOrder NNReal
@@ -33,13 +25,11 @@ namespace POVM
 variable {y : Type u} {a : Type v}
 variable [Fintype y] [DecidableEq y] [Fintype a] [DecidableEq a]
 
-/-- The Born-rule probability of outcome `outcome` for state `rho`. -/
 def prob (M : POVM y a) (rho : State a) (outcome : y) : ℝ≥0 :=
   let sigma := (Channel.measure M).applyState rho
   ⟨Complex.re (sigma.matrix outcome outcome),
     (Complex.nonneg_iff.mp (sigma.pos.diag_nonneg (i := outcome))).1⟩
 
-/-- POVM outcome probabilities sum to one. -/
 theorem sum_prob (M : POVM y a) (rho : State a) :
     ∑ outcome, M.prob rho outcome = 1 := by
   let sigma := (Channel.measure M).applyState rho
@@ -63,7 +53,6 @@ theorem sum_prob (M : POVM y a) (rho : State a) :
       rfl
     _ = 1 := by simpa using htrace_re
 
-/-- A single POVM outcome probability is at most one. -/
 theorem prob_le_one (M : POVM y a) (rho : State a) (outcome : y) :
     (M.prob rho outcome : ℝ) ≤ 1 := by
   have hle_nn :
@@ -74,7 +63,6 @@ theorem prob_le_one (M : POVM y a) (rho : State a) (outcome : y) :
   rw [M.sum_prob rho] at hle_nn
   exact_mod_cast hle_nn
 
-/-- The `NNReal` probability is the real part of the Born-rule trace formula. -/
 theorem prob_eq_trace_re (M : POVM y a) (rho : State a) (outcome : y) :
     (M.prob rho outcome : ℝ) =
       Complex.re ((rho.matrix * M.effects outcome).trace) := by
@@ -87,8 +75,6 @@ theorem prob_eq_trace_re (M : POVM y a) (rho : State a) (outcome : y) :
 
 variable {b : Type w} [Fintype b] [DecidableEq b]
 
-/-- The state obtained by embedding a system into a larger finite space through
-an isometry. -/
 def isometryLiftState (rho : State a) (V : Matrix b a ℂ)
     (_hV : Matrix.conjTranspose V * V = 1) : State b where
   matrix := V * rho.matrix * Matrix.conjTranspose V
@@ -108,8 +94,6 @@ theorem isometryLiftState_matrix (rho : State a) (V : Matrix b a ℂ)
     (isometryLiftState rho V hV).matrix = V * rho.matrix * Matrix.conjTranspose V :=
   rfl
 
-/-- Born-rule probabilities are preserved by compressing a POVM along the same
-isometry used to lift the state. -/
 theorem compressByIsometry_prob_eq (M : POVM y b) (rho : State a)
     (V : Matrix b a ℂ) (hV : Matrix.conjTranspose V * V = 1) (outcome : y) :
     ((M.compressByIsometry V hV).prob rho outcome : ℝ) =

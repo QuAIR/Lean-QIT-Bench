@@ -1,4 +1,4 @@
-A variational characterization of the quantum fidelity between two density operators $\rho$ and $\sigma$ is given by Alberti's theorem:
+A variational characterization of the quantum fidelity between two density operators $\rho$ and $\sigma$ is given by Alberti's theorem,
 $$
 F(\rho,\sigma)^2
 =
@@ -7,23 +7,15 @@ F(\rho,\sigma)^2
 $$
 where the infimum is taken over all invertible positive-definite operators $P$.
 
-Assume that $\rho$ and $\sigma$ commute. Hence, there exists an orthonormal basis $\{\ket{i}\}$ such that
+Assume that $\rho$ and $\sigma$ commute. Then there is an orthonormal basis $\{\ket{i}\}$ in which
 $$
 \rho=\sum_i \lambda_i \ket{i}\bra{i},
 \qquad
 \sigma=\sum_i \mu_i \ket{i}\bra{i},
 $$
-where $\lambda_i,\mu_i\geq 0$ and
-$$
-\sum_i\lambda_i=\sum_i\mu_i=1.
-$$
+where $\lambda_i,\mu_i\geq 0$ and $\sum_i\lambda_i=\sum_i\mu_i=1.$
 
-Restrict $P$ to be diagonal in the common eigenbasis,
-$$
-P=\sum_i p_i \ket{i}\bra{i},
-\qquad
-p_i>0.
-$$
+Restrict $P$ to the diagonal form $P=\sum_i p_i \ket{i}\bra{i}$ in the common eigenbasis, where $p_i>0$.
 Using the Cauchy--Schwarz inequality, solve the resulting optimization problem and prove that
 $$
 \inf_{\{p_i>0\}}

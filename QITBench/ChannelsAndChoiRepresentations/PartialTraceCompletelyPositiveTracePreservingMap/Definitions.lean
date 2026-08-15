@@ -1,13 +1,12 @@
+/-
+Copyright (c) 2026 QuAIR.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: QuAIR Team
+-/
+
 module
 
 public import QITBench.Base
-
-/-!
-# Partial Trace as a Completely Positive Trace-Preserving Map
-
-The partial trace is bundled as a `MatrixMap`; the Kraus representation uses
-`MatrixMap.ofKraus`, and trace preservation uses Base's predicate.
--/
 
 @[expose] public section
 
@@ -19,8 +18,13 @@ noncomputable def partialTraceBMap {a b : Type*}
     [Fintype a] [DecidableEq a] [Fintype b] [DecidableEq b] :
     MatrixMap (a × b) a where
   toFun := partialTraceB (a := a) (b := b)
-  map_add' X Y := partialTraceB_add X Y
-  map_smul' c X := partialTraceB_smul c X
+  map_add' X Y := by
+    ext i i'
+    simp [partialTraceB, Finset.sum_add_distrib]
+  map_smul' c X := by
+    ext i i'
+    simp only [partialTraceB, Matrix.smul_apply, smul_eq_mul]
+    exact (Finset.mul_sum _ _ _).symm
 
 noncomputable def partialTraceBKraus {a b : Type*}
     [Fintype a] [Fintype b] [DecidableEq a] [DecidableEq b]

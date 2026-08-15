@@ -18,10 +18,4 @@ public import QITBench.ChannelsAndChoiRepresentations.PrimitivityNondegeneracySt
 public import QITBench.ChannelsAndChoiRepresentations.PartialSWAPMarginalSplitter
 public import QITBench.ChannelsAndChoiRepresentations.HadamardChannelDephasingIsometry
 
-/-!
-# ChannelsAndChoiRepresentations
-
-Benchmark problem modules in the `ChannelsAndChoiRepresentations` category.
--/
-
 @[expose] public section

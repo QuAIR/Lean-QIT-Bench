@@ -1,7 +1,12 @@
+/-
+Copyright (c) 2026 QuAIR.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: QuAIR Team
+-/
+
 module
 
 public import QITBench.OneShotEntropiesAndHypothesisTesting.AchievabilityEntanglementConcentration.Definitions
-
 @[expose] public section
 
 namespace QITBench.AchievabilityEntanglementConcentration
@@ -23,7 +28,7 @@ theorem main
           ∃ M : ℕ → ℕ,
             ∃ protocols :
               (n : ℕ) →
-                LOCCProtocol
+                SEPProtocol
                   (TensorPower X n) (TensorPower X n)
                   (Fin (M n)) (Fin (M n)),
               (∀ n, 0 < M n) ∧

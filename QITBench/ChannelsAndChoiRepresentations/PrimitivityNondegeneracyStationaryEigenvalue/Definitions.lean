@@ -1,13 +1,12 @@
+/-
+Copyright (c) 2026 QuAIR.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: QuAIR Team
+-/
+
 module
 
 public import QITBench.Base
-
-/-!
-# Primitivity and Nondegeneracy of the Stationary Eigenvalue
-
-The CPTP hypothesis is carried by `Channel`; primitivity is stated over iterated
-application to bundled states.
--/
 
 @[expose] public section
 
@@ -42,7 +41,9 @@ def EigenvalueOneNondegenerate {d : Type*} [Fintype d] [DecidableEq d] [Nonempty
     (E : Channel d d) : Prop :=
   ∃ sigma : CMatrix d,
     sigma ≠ 0 ∧ E.map sigma = sigma ∧
-      ∀ tau : CMatrix d, E.map tau = tau → ∃ c : ℂ, tau = c • sigma
+      (∀ tau : CMatrix d, E.map tau = tau → ∃ c : ℂ, tau = c • sigma) ∧
+        ∀ X Y : CMatrix d,
+          E.map X = X → E.map Y - Y = X → X = 0
 
 end
 

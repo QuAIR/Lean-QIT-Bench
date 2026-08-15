@@ -1,13 +1,12 @@
+/-
+Copyright (c) 2026 QuAIR.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: QuAIR Team
+-/
+
 module
 
 public import QITBench.Base
-
-/-!
-# Choi Matrix Acting on a Canonical Input State
-
-The channel is a bundled `Channel`, and `id_A ⊗ N` is the Base product channel
-`Channel.idChannel.prod`.
--/
 
 @[expose] public section
 

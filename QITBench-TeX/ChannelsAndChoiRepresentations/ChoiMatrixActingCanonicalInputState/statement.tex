@@ -1,18 +1,15 @@
-Let $\cN_{A'\to B}$ be a quantum channel and let $A\cong A'$. Fix
+Let $\cN_{A'\to B}$ be a quantum channel, and let $A\cong A'$. Fix a computational basis and set
 $$
 \ket{\Gamma}_{AA'}=\sum_i\ket{i}_A\ket{i}_{A'},
 \qquad
 \Gamma_{AA'}=\ket{\Gamma}\bra{\Gamma}_{AA'}.
 $$
-The Choi matrix of $\cN$ is
-$$
-J_{\cN}=(\idmap_A\otimes\cN_{A'\to B})(\Gamma_{AA'}).
-$$
-For $\rho_A\in\cS(\cH_A)$ define
+The corresponding Choi matrix is $J_{\cN}=(\idmap_A\otimes\cN_{A'\to B})(\Gamma_{AA'}).$
+For a state $\rho_A\in\cS(\cH_A)$, define the canonical input state by
 $$
 \phi_{AA'}=(\rho_A^{1/2}\otimes\Id_{A'})\Gamma_{AA'}(\rho_A^{1/2}\otimes\Id_{A'}).
 $$
-Prove that
+Prove that applying the channel to this input gives
 $$
 (\idmap_A\otimes\cN_{A'\to B})(\phi_{AA'})
 =

@@ -1,14 +1,12 @@
+/-
+Copyright (c) 2026 QuAIR.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: QuAIR Team
+-/
+
 module
 
 public import QITBench.Base
-
-/-!
-# Uniqueness of the Maximum-Entropy State
-
-The statement uses concrete spectral von Neumann entropy.  The previous version
-assumed the desired strict bound as a hypothesis; here the random-unitary
-identity remains as proof data and the strict maximum/uniqueness is the target.
--/
 
 @[expose] public section
 
@@ -25,7 +23,6 @@ noncomputable def maximallyMixed {d : Type*} [Fintype d] [DecidableEq d]
     (D : ℕ) : CMatrix d :=
   ((1 / (D : ℂ)) • (1 : CMatrix d))
 
-/-- Spectral von Neumann entropy, zero outside the PSD cone. -/
 noncomputable def vonNeumannEntropyMatrix {d : Type*} [Fintype d] [DecidableEq d]
     (rho : CMatrix d) : ℝ := by
   classical

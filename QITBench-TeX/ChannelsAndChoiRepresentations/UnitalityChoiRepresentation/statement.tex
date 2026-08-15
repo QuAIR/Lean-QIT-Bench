@@ -1,18 +1,6 @@
-Let $\cE:\cL(\cH_A)\to\cL(\cH_B)$ be a completely positive map with
-$\dim\cH_A=\dim\cH_B=d$. Fix an orthonormal computational basis
-$\{\ket{i}\}_{i=1}^d$ for both copies, let
-$$
-\ket{\Gamma}_{AB}=\sum_{i=1}^{d}\ket{i}_A\ket{i}_B,
-$$
-and define the unnormalized Choi matrix
-$$
-J_{\cE}=(\id_A\otimes\cE)(\ket{\Gamma}\bra{\Gamma}_{AB}).
-$$
-Prove that $\cE$ is unital,
-$$
-\cE(\Id)=\Id,
-$$
-if and only if
+Let $\cE:\cL(\cH)\to\cL(\cH)$ be a completely positive map on a
+$d$-dimensional Hilbert space. Fix an orthonormal computational basis
+$\{\ket{i}\}_{i=1}^d$ for $\cH$, use it on two copies $\cH_A$ and $\cH_B$, write $\cE_B$ for its action on the second copy, and set $\ket{\Gamma}_{AB}=\sum_{i=1}^{d}\ket{i}_A\ket{i}_B.$ Define the unnormalized Choi matrix by $J_{\cE}=(\id_A\otimes\cE_B)(\ket{\Gamma}\bra{\Gamma}_{AB}).$ Prove that $\cE$ is unital, meaning that $\cE(\Id)=\Id,$ if and only if
 $$
 \Tr_A(J_{\cE})=\Id_B.
 $$

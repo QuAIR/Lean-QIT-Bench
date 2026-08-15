@@ -1,14 +1,12 @@
+/-
+Copyright (c) 2026 QuAIR.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: QuAIR Team
+-/
+
 module
 
-public import QITBench.Base
-
-/-!
-# Trace-Distance Lower Bound for a Pure State
-
-The pure state is represented by `PureVector`; the density matrix `|ψ⟩⟨ψ|` is
-`psi.state.matrix`, backed by the Base `rankOneMatrix` construction. Trace
-distance uses the concrete finite-dimensional trace norm.
--/
+public import QITBench.Base.Fidelity
 
 @[expose] public section
 
@@ -21,12 +19,12 @@ noncomputable section
 noncomputable def matrixSqrt
     {n : ℕ}
     (A : CMatrix (Fin n)) : CMatrix (Fin n) :=
-  CFC.sqrt A
+  Fidelity.matrixSqrt A
 
 noncomputable def traceNorm
     {n : ℕ}
     (A : CMatrix (Fin n)) : ℝ :=
-  Complex.re (Matrix.trace (matrixSqrt (A.conjTranspose * A)))
+  Fidelity.traceNorm A
 
 noncomputable def quadraticForm
     {n : ℕ}
@@ -37,7 +35,7 @@ noncomputable def quadraticForm
 noncomputable def traceDistance
     {n : ℕ}
     (rho sigma : CMatrix (Fin n)) : ℝ :=
-  (1 / 2 : ℝ) * traceNorm (rho - sigma)
+  Fidelity.traceDistance rho sigma
 
 noncomputable def pureStateFidelity
     {n : ℕ}

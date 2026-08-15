@@ -1,13 +1,12 @@
+/-
+Copyright (c) 2026 QuAIR.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: QuAIR Team
+-/
+
 module
 
-public import QITBench.Base
-
-/-!
-# Trace-Distance Data Processing for Quantum Channels
-
-Complete positivity and trace preservation are carried by the `Channel` type.
-Trace distance uses the concrete finite-dimensional trace norm.
--/
+public import QITBench.Base.Fidelity
 
 @[expose] public section
 
@@ -20,17 +19,17 @@ noncomputable section
 noncomputable def matrixSqrt
     {d : Type*} [Fintype d] [DecidableEq d]
     (A : CMatrix d) : CMatrix d :=
-  CFC.sqrt A
+  Fidelity.matrixSqrt A
 
 noncomputable def traceNorm
     {d : Type*} [Fintype d] [DecidableEq d]
     (A : CMatrix d) : ℝ :=
-  Complex.re (Matrix.trace (matrixSqrt (d := d) (A.conjTranspose * A)))
+  Fidelity.traceNorm A
 
 noncomputable def traceDistance
     {d : Type*} [Fintype d] [DecidableEq d]
     (rho sigma : CMatrix d) : ℝ :=
-  (1 / 2 : ℝ) * traceNorm (rho - sigma)
+  Fidelity.traceDistance rho sigma
 
 end
 

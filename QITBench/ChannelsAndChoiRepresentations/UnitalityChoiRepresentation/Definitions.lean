@@ -1,13 +1,12 @@
+/-
+Copyright (c) 2026 QuAIR.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: QuAIR Team
+-/
+
 module
 
 public import QITBench.Base
-
-/-!
-# Unitality in the Choi Representation
-
-The Choi matrix is `MatrixMap.choi`; the subsystem trace is Base
-`partialTraceA`.
--/
 
 @[expose] public section
 

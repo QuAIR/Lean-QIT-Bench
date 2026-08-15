@@ -1,13 +1,12 @@
+/-
+Copyright (c) 2026 QuAIR.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: QuAIR Team
+-/
+
 module
 
 public import QITBench.Base
-
-/-!
-# Choi Matrix of the Qutrit Werner--Holevo Channel
-
-The Choi matrix is stated through the Base `MatrixMap.choi` construction, and
-complete positivity through Choi positivity.
--/
 
 @[expose] public section
 

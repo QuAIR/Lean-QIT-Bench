@@ -1,22 +1,12 @@
-Let $\cH$ be an $n$-qubit Hilbert space, so that
-$$
-\dim(\cH)=2^n.
-$$
-Alice encodes a classical random variable $X$ into a quantum ensemble
-$$
-\{p_x,\rho_x\},
-\qquad
-\rho_x\in \cS(\cH).
-$$
+Let $\cH$ be an $n$-qubit Hilbert space, so that $\dim(\cH)=2^n$. Alice encodes a classical random variable $X$ into a quantum ensemble $\{p_x,\rho_x\}$, where $\rho_x\in \cS(\cH)$. Let $\rho=\sum_x p_x\rho_x$ denote the average state.
 Bob performs a POVM measurement and obtains a classical random variable $Y$.
+Let $S$ denote the von Neumann entropy, and let $I(X:Y)$ denote the classical mutual information between $X$ and $Y$.
 
 Using the Holevo bound
 $$
 I(X:Y)
 \leq
 S(\rho)-\sum_x p_x S(\rho_x),
-\qquad
-\rho=\sum_x p_x\rho_x,
 $$
 prove that
 $$

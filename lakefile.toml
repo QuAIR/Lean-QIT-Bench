@@ -1,5 +1,6 @@
 name = "QITBench"
 defaultTargets = ["QITBench"]
+lintDriver = "batteries/runLinter"
 
 [[require]]
 name = "mathlib"

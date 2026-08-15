@@ -1,14 +1,12 @@
+/-
+Copyright (c) 2026 QuAIR.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: QuAIR Team
+-/
+
 module
 
 public import QITBench.Base
-
-/-!
-# Trace-Norm Unitary Optimization
-
-The trace norm is the concrete finite-dimensional `Tr |A|`, with `|A|` defined
-by matrix CFC square root of `A†A`; unitarity is kept as a problem-local matrix
-predicate.
--/
 
 @[expose] public section
 

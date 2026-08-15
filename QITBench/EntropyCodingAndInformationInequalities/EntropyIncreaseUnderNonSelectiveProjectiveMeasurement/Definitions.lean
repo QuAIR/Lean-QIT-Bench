@@ -1,14 +1,12 @@
+/-
+Copyright (c) 2026 QuAIR.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: QuAIR Team
+-/
+
 module
 
 public import QITBench.Base
-
-/-!
-# Entropy Increase Under Non-Selective Projective Measurement
-
-This version instantiates entropy as the concrete spectral von Neumann entropy,
-while retaining the random-unitary representation as the structural proof route
-from the companion problem.
--/
 
 @[expose] public section
 
@@ -21,7 +19,6 @@ noncomputable section
 noncomputable def log2 (x : ℝ) : ℝ :=
   Real.log x / Real.log 2
 
-/-- Spectral von Neumann entropy, zero outside the PSD cone. -/
 noncomputable def vonNeumannEntropyMatrix {d : Type*} [Fintype d] [DecidableEq d]
     (rho : CMatrix d) : ℝ := by
   classical

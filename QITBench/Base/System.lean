@@ -6,17 +6,9 @@ Authors: QuAIR Team
 
 module
 
-public import QITBench.Init
+public import Mathlib.Data.Fintype.Basic
 public import Mathlib.Data.Fintype.Prod
-
-/-!
-# Finite systems
-
-Finite label types used by the local matrix model. `TensorPower a n` is the
-right-associated type-level tensor power used for IID constructions
-[Tomamichel2015FiniteResources, prelim.tex:38-43;
-Wilde2011Qst, qit-notes.tex:1888-1920].
--/
+public import Mathlib.Data.Fintype.Prod
 
 @[expose] public section
 
@@ -24,7 +16,6 @@ namespace QITBench
 
 universe u v
 
-/-- Recursive finite tensor-power label type. -/
 def TensorPower (a : Type u) : Nat -> Type u
   | 0 => PUnit
   | n + 1 => Prod a (TensorPower a n)
@@ -41,12 +32,6 @@ instance tensorPowerDecidableEq {a : Type u} [DecidableEq a] (n : Nat) :
   | zero => exact inferInstanceAs (DecidableEq PUnit)
   | succ n ih => exact inferInstanceAs (DecidableEq (Prod a (TensorPower a n)))
 
-/-- Split an IID tensor power of bipartite labels into the two IID tensor powers.
-
-The recursive convention for `TensorPower` stores
-`(A × B)^(n+1)` as `(A × B) × (A × B)^n`. This equivalence is the finite-system
-bookkeeping bridge used to read that system as `A^(n+1) × B^(n+1)`.
--/
 def tensorPowerProdEquiv (a : Type u) (b : Type v) :
     (n : Nat) -> TensorPower (Prod a b) n ≃
       Prod (TensorPower a n) (TensorPower b n)

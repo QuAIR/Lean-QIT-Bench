@@ -1,3 +1,9 @@
+/-
+Copyright (c) 2026 QuAIR.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: QuAIR Team
+-/
+
 module
 
 public import QITBench.OneShotEntropiesAndHypothesisTesting.ExactEntanglementDilutionMaximallyEntangledState.Definitions
@@ -14,9 +20,8 @@ theorem main
     (hd : 0 < d)
     (mu : Fin d → ℝ)
     (hmu : IsSchmidtProbabilityVector mu)
-    (hM : 0 < M)
-    (hMd : M ≤ d) :
-    CanTransformDeterministicallyByLOCC mu M ↔
+    (hM : 0 < M) :
+    CanTransformDeterministicallyBySEP mu M ↔
       largestSchmidtCoefficient mu hd ≤ (1 : ℝ) / (M : ℝ) := by
   sorry
 

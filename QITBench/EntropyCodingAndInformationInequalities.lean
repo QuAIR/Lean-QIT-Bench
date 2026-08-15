@@ -16,10 +16,4 @@ public import QITBench.EntropyCodingAndInformationInequalities.HolevoBoundClassi
 public import QITBench.EntropyCodingAndInformationInequalities.QuantumFanoInequality
 public import QITBench.EntropyCodingAndInformationInequalities.SpectrumEntropySingleQubitSource
 
-/-!
-# EntropyCodingAndInformationInequalities
-
-Benchmark problem modules in the `EntropyCodingAndInformationInequalities` category.
--/
-
 @[expose] public section

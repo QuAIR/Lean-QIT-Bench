@@ -1,14 +1,12 @@
+/-
+Copyright (c) 2026 QuAIR.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: QuAIR Team
+-/
+
 module
 
-public import QITBench.Base
-
-/-!
-# Fuchs--van de Graaf Inequalities
-
-The density-operator assumptions are represented by `State`. The trace norm
-and square root are the concrete matrix-CFC versions used in finite dimension,
-not arbitrary functions supplied by the theorem caller.
--/
+public import QITBench.Base.Fidelity
 
 @[expose] public section
 
@@ -21,17 +19,17 @@ noncomputable section
 noncomputable def matrixSqrt
     {n : ℕ}
     (A : CMatrix (Fin n)) : CMatrix (Fin n) :=
-  CFC.sqrt A
+  Fidelity.matrixSqrt A
 
 noncomputable def traceNorm
     {n : ℕ}
     (A : CMatrix (Fin n)) : ℝ :=
-  Complex.re (Matrix.trace (matrixSqrt (A.conjTranspose * A)))
+  Fidelity.traceNorm A
 
 noncomputable def traceDistance
     {n : ℕ}
     (rho sigma : CMatrix (Fin n)) : ℝ :=
-  (1 / 2 : ℝ) * traceNorm (rho - sigma)
+  Fidelity.traceDistance rho sigma
 
 noncomputable def unsquaredFidelity
     {n : ℕ}

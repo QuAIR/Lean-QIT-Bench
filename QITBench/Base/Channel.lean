@@ -9,15 +9,6 @@ module
 public import QITBench.Base.Map
 public import QITBench.Base.Measurement
 
-/-!
-# Channels
-
-Finite-dimensional channels are complex-linear matrix maps equipped with
-Choi-positive complete positivity and trace preservation data. Tensor products
-of channels model parallel channel uses [HolevoGiovannetti2012QuantumChannels,
-arxive.tex:965-974,1986-1993].
--/
-
 @[expose] public section
 
 open scoped ComplexOrder MatrixOrder
@@ -31,7 +22,6 @@ noncomputable section
 variable {a : Type u} {b : Type v}
 variable [Fintype a] [DecidableEq a] [Fintype b] [DecidableEq b]
 
-/-- A finite-dimensional CPTP channel. -/
 structure Channel (a : Type u) (b : Type v) [Fintype a] [DecidableEq a]
     [Fintype b] [DecidableEq b] where
   map : MatrixMap a b
@@ -50,7 +40,6 @@ def applyState (Phi : Channel a b) (rho : State a) : State b where
 variable {c : Type w}
 variable [Fintype c] [DecidableEq c]
 
-/-- Composition of finite-dimensional quantum channels. -/
 def comp (Psi : Channel b c) (Phi : Channel a b) : Channel a c where
   map := Psi.map.comp Phi.map
   completelyPositive :=
@@ -63,8 +52,6 @@ def comp (Psi : Channel b c) (Phi : Channel a b) : Channel a c where
     intro X hX
     exact Psi.mapsPositive (Phi.map X) (Phi.mapsPositive X hX)
 
-/-- Applying a composed channel is the same as applying the two channels in
-sequence. -/
 theorem applyState_comp (Psi : Channel b c) (Phi : Channel a b) (rho : State a) :
     (Psi.comp Phi).applyState rho = Psi.applyState (Phi.applyState rho) := by
   apply State.ext
@@ -213,7 +200,6 @@ theorem measureMap_isTracePreserving {y : Type x} [Fintype y] [DecidableEq y]
     _ = (X * 1).trace := by rw [M.sum_eq_one]
     _ = X.trace := by simp
 
-/-- A classical-quantum preparation channel from a finite register into states. -/
 def prepare {x : Type w} [Fintype x] [DecidableEq x]
     (rho : x → State b) : Channel x b where
   map := prepareMap rho
@@ -223,7 +209,6 @@ def prepare {x : Type w} [Fintype x] [DecidableEq x]
     MatrixMap.isCompletelyPositive_mapsPositive (prepareMap rho)
       (prepareMap_isCompletelyPositive rho)
 
-/-- A quantum-classical measurement channel associated to a discrete POVM. -/
 def measure {y : Type x} [Fintype y] [DecidableEq y]
     (M : POVM y a) : Channel a y where
   map := measureMap M
@@ -233,7 +218,6 @@ def measure {y : Type x} [Fintype y] [DecidableEq y]
     MatrixMap.isCompletelyPositive_mapsPositive (measureMap M)
       (measureMap_isCompletelyPositive M)
 
-/-- The preparation channel acts by reading the diagonal classical weights. -/
 @[simp]
 theorem prepare_map {x : Type w} [Fintype x] [DecidableEq x]
     (rho : x → State b) (X : CMatrix x) :
@@ -241,13 +225,11 @@ theorem prepare_map {x : Type w} [Fintype x] [DecidableEq x]
   show prepareMap rho X = _
   rfl
 
-/-- The preparation channel maps basis projectors to the prepared states. -/
 theorem prepare_map_single_eq {x : Type w} [Fintype x] [DecidableEq x]
     (rho : x → State b) (x0 : x) :
     (prepare rho).map (Matrix.single x0 x0 (1 : Complex)) = (rho x0).matrix := by
   simpa [prepare_map] using (prepareMap_single rho x0 x0)
 
-/-- The measurement channel returns the Born-rule diagonal classical state. -/
 @[simp]
 theorem measure_map {y : Type x} [Fintype y] [DecidableEq y]
     (M : POVM y a) (X : CMatrix a) :
@@ -255,7 +237,6 @@ theorem measure_map {y : Type x} [Fintype y] [DecidableEq y]
   show measureMap M X = _
   rfl
 
-/-- The measurement channel applied to a state yields a diagonal classical state. -/
 theorem measure_map_state_diagonal {y : Type x} [Fintype y] [DecidableEq y]
     (M : POVM y a) (rho : State a) :
     (measure M).map rho.matrix =
@@ -263,15 +244,12 @@ theorem measure_map_state_diagonal {y : Type x} [Fintype y] [DecidableEq y]
   rw [measure_map]
   simpa using (Matrix.sum_single_eq_diagonal fun y => (rho.matrix * M.effects y).trace)
 
-/-- The identity channel on the unit system. -/
 def unit : Channel PUnit.{u + 1} PUnit.{v + 1} where
   map := MatrixMap.unit
   completelyPositive := MatrixMap.unit_isCompletelyPositive
   tracePreserving := MatrixMap.unit_isTracePreserving
   mapsPositive := MatrixMap.unit_mapsPositive
 
-/-- The identity channel on an arbitrary finite system, realized as a
-single-Kraus map with the identity operator as its sole Kraus operator. -/
 def idChannel (a : Type u) [Fintype a] [DecidableEq a] : Channel a a where
   map := MatrixMap.ofKraus (fun (_ : Unit) => (1 : CMatrix a))
   completelyPositive := by
@@ -290,14 +268,10 @@ def idChannel (a : Type u) [Fintype a] [DecidableEq a] : Channel a a where
 variable {c : Type w} {d : Type x}
 variable [Fintype c] [DecidableEq c] [Fintype d] [DecidableEq d]
 
-/-- An `n`-use channel surface between recursive tensor-power systems. -/
 abbrev TensorPower (a : Type u) (b : Type v) [Fintype a] [DecidableEq a]
     [Fintype b] [DecidableEq b] (n : Nat) :=
   Channel (QITBench.TensorPower a n) (QITBench.TensorPower b n)
 
-/-- Product channel between tensor-product systems. Tensor products of channels
-model parallel or block channels and are again completely positive
-[HolevoGiovannetti2012QuantumChannels, arxive.tex:965-974]. -/
 def prod (Phi : Channel a b) (Psi : Channel c d) : Channel (Prod a c) (Prod b d) where
   map := MatrixMap.kron Phi.map Psi.map
   completelyPositive :=
@@ -311,16 +285,12 @@ def prod (Phi : Channel a b) (Psi : Channel c d) : Channel (Prod a c) (Prod b d)
       (MatrixMap.isCompletelyPositive_kron Phi.map Psi.map
         Phi.completelyPositive Psi.completelyPositive)
 
-/-- The product channel acts componentwise on Kronecker products of matrices. -/
 theorem prod_map_kronecker (Phi : Channel a b) (Psi : Channel c d)
     (X : CMatrix a) (Y : CMatrix c) :
     (prod Phi Psi).map (Matrix.kronecker X Y) =
       Matrix.kronecker (Phi.map X) (Psi.map Y) :=
   MatrixMap.kron_apply_kronecker Phi.map Psi.map X Y
 
-/-- A product channel sends product states to product states. This derived lemma
-follows from the product-channel action law and the product-state definition
-[Wilde2011Qst, qit-notes.tex:7294-7299]. -/
 theorem applyState_prod (Phi : Channel a b) (Psi : Channel c d)
     (rho : State a) (sigma : State c) :
     (Phi.prod Psi).applyState (rho.prod sigma) = (Phi.applyState rho).prod (Psi.applyState sigma) := by
@@ -329,8 +299,6 @@ theorem applyState_prod (Phi : Channel a b) (Psi : Channel c d)
     Matrix.kronecker (Phi.map rho.matrix) (Psi.map sigma.matrix)
   exact prod_map_kronecker Phi Psi rho.matrix sigma.matrix
 
-/-- Tracing out the first output of a product-channel output leaves the second
-output marginal. -/
 theorem partialTraceA_applyState_prod (Phi : Channel a b) (Psi : Channel c d)
     (rho : State a) (sigma : State c) :
     partialTraceA (a := b) (b := d) ((Phi.prod Psi).applyState (rho.prod sigma)).matrix =
@@ -338,8 +306,6 @@ theorem partialTraceA_applyState_prod (Phi : Channel a b) (Psi : Channel c d)
   rw [applyState_prod]
   exact State.partialTraceA_prod (Phi.applyState rho) (Psi.applyState sigma)
 
-/-- Tracing out the second output of a product-channel output leaves the first
-output marginal. -/
 theorem partialTraceB_applyState_prod (Phi : Channel a b) (Psi : Channel c d)
     (rho : State a) (sigma : State c) :
     partialTraceB (a := b) (b := d) ((Phi.prod Psi).applyState (rho.prod sigma)).matrix =
@@ -349,16 +315,13 @@ theorem partialTraceB_applyState_prod (Phi : Channel a b) (Psi : Channel c d)
 
 variable (Phi : Channel a b)
 
-/-- Recursive tensor power of a channel for memoryless repeated uses. -/
 def tensorPower : (n : Nat) -> TensorPower a b n
   | 0 => unit
   | n + 1 => Phi.prod (tensorPower n)
 
-/-- The zeroth channel tensor power is the unit-system identity channel. -/
 theorem tensorPower_zero :
     tensorPower Phi 0 = unit := rfl
 
-/-- Successor channel tensor powers unfold by adding one product-channel factor. -/
 theorem tensorPower_succ (n : Nat) :
     tensorPower Phi (n + 1) = Phi.prod (tensorPower Phi n) := rfl
 

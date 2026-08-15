@@ -1,13 +1,12 @@
+/-
+Copyright (c) 2026 QuAIR.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: QuAIR Team
+-/
+
 module
 
 public import QITBench.Base
-
-/-!
-# Partial-SWAP Marginal Splitter
-
-The input qubit density operator is a `State`; the two output marginals use Base
-partial traces.
--/
 
 @[expose] public section
 

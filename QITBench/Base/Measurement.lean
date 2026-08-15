@@ -8,15 +8,6 @@ module
 
 public import QITBench.Base.Util.Matrix
 
-/-!
-# Finite POVMs
-
-A positive operator-valued measure (POVM) on a finite-dimensional system is a
-finite family of positive semidefinite effects summing to the identity,
-following the discrete-outcome POVM definitions and measurement-map route in
-[Tomamichel2015FiniteResources, prelim.tex:303-311,813-817].
--/
-
 @[expose] public section
 
 open scoped ComplexOrder MatrixOrder
@@ -30,26 +21,21 @@ noncomputable section
 variable {x : Type u} {a : Type v}
 variable [Fintype x] [Fintype a] [DecidableEq a]
 
-/-- A finite discrete POVM with outcomes indexed by `x`. -/
 structure POVM (x : Type u) (a : Type v) [Fintype x] [Fintype a] [DecidableEq a] where
-  /-- The POVM effect for outcome `x`. -/
+
   effects : x → CMatrix a
-  /-- Each effect is positive semidefinite. -/
+
   pos : ∀ y, (effects y).PosSemidef
-  /-- The effects sum to the identity. -/
+
   sum_eq_one : ∑ y, effects y = 1
 
 namespace POVM
 
 variable (M : POVM x a)
 
-/-- The POVM effects sum to the identity matrix. -/
 @[simp]
 theorem sum_effects : ∑ y, M.effects y = 1 := M.sum_eq_one
 
-/-- The binary POVM associated to a single effect `0 <= E <= 1`.
-
-The `true` outcome is the effect `E`, while `false` is its complement. -/
 def binaryOfEffect (E : CMatrix a) (hEpos : E.PosSemidef) (hEle : E ≤ 1) :
     POVM Bool a where
   effects accept := if accept then E else 1 - E
@@ -77,11 +63,6 @@ theorem binaryOfEffect_false_effect (E : CMatrix a) (hEpos : E.PosSemidef)
 
 variable {b : Type w} [Fintype b] [DecidableEq b]
 
-/-- Compress a POVM on a larger finite system along an isometric embedding.
-
-If `V : b → a` satisfies `Vᴴ V = 1`, then each effect `E_y` on `b` pulls back
-to `Vᴴ E_y V` on `a`.  This is the operational POVM obtained by applying the
-larger-space measurement after the isometric embedding. -/
 def compressByIsometry (M : POVM x b) (V : Matrix b a ℂ)
     (hV : Matrix.conjTranspose V * V = 1) : POVM x a where
   effects y := Matrix.conjTranspose V * M.effects y * V

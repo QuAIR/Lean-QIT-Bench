@@ -1,14 +1,12 @@
+/-
+Copyright (c) 2026 QuAIR.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: QuAIR Team
+-/
+
 module
 
 public import QITBench.Base
-
-/-!
-# Spectrum and Entropy of a Single-Qubit Source
-
-The entropy claim is now about the concrete spectral von Neumann entropy of the
-matrix `rho`; it is no longer an `rfl` unfolding of a function that already
-contains the desired formula.
--/
 
 @[expose] public section
 
@@ -40,7 +38,6 @@ def HasEigenvalue
   ∃ v : Fin 2 → ℂ,
     v ≠ 0 ∧ matrixVectorMul M v = fun i => lam * v i
 
-/-- Spectral von Neumann entropy for a positive semidefinite two-by-two matrix. -/
 noncomputable def vonNeumannEntropy (M : CMatrix (Fin 2)) : ℝ := by
   classical
   exact if h : M.PosSemidef then

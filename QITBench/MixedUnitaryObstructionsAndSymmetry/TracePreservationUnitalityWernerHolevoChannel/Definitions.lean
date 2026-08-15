@@ -1,13 +1,12 @@
+/-
+Copyright (c) 2026 QuAIR.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: QuAIR Team
+-/
+
 module
 
 public import QITBench.Base
-
-/-!
-# Trace Preservation and Unitality of the Werner--Holevo Channel
-
-The channel is represented as a `MatrixMap`; trace preservation is stated using
-Base's `MatrixMap.IsTracePreserving` predicate.
--/
 
 @[expose] public section
 

@@ -10,10 +10,4 @@ public import QITBench.OneShotEntropiesAndHypothesisTesting.ExactEntanglementDil
 public import QITBench.OneShotEntropiesAndHypothesisTesting.AchievabilityEntanglementConcentration
 public import QITBench.OneShotEntropiesAndHypothesisTesting.ConverseEntanglementConcentration
 
-/-!
-# OneShotEntropiesAndHypothesisTesting
-
-Benchmark problem modules in the `OneShotEntropiesAndHypothesisTesting` category.
--/
-
 @[expose] public section

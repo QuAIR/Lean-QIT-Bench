@@ -1,14 +1,12 @@
+/-
+Copyright (c) 2026 QuAIR.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: QuAIR Team
+-/
+
 module
 
 public import QITBench.Base
-
-/-!
-# Dimension of the Three-Copy Symmetric Subspace
-
-The symmetric subspace is the actual fixed-point submodule of functions on the
-computational basis of `H^{⊗3}` under the `S₃` permutation action, not a
-dimension formula hidden inside a definition.
--/
 
 @[expose] public section
 
@@ -16,30 +14,24 @@ namespace QITBench.DimensionSymmetricSubspaceThreeCopies
 
 noncomputable section
 
-/-- Basis labels for `H^{⊗3}`. -/
 abbrev TensorCube (H : Type*) := H × H × H
 
-/-- Read the `i`th component of a three-tensor basis label. -/
 def tensorCubeGet {H : Type*} (x : TensorCube H) : Fin 3 → H
   | 0 => x.1
   | 1 => x.2.1
   | 2 => x.2.2
 
-/-- Assemble a three-tensor basis label from its three components. -/
 def tensorCubeOfGet {H : Type*} (f : Fin 3 → H) : TensorCube H :=
   (f 0, f 1, f 2)
 
-/-- Permutation action of `S₃` on basis labels of `H^{⊗3}`. -/
 def permuteTensorCube {H : Type*} (π : Equiv.Perm (Fin 3)) (x : TensorCube H) :
     TensorCube H :=
   tensorCubeOfGet fun i => tensorCubeGet x (π i)
 
-/-- A vector fixed by every permutation of the three tensor factors. -/
 def IsSymmetricTensorThree {H : Type*} (v : TensorCube H → ℂ) : Prop :=
   ∀ π : Equiv.Perm (Fin 3), ∀ x : TensorCube H,
     v (permuteTensorCube π x) = v x
 
-/-- The symmetric subspace of `H^{⊗3}`. -/
 noncomputable def symmetricSubspaceThreeCopies (H : Type*) :
     Submodule ℂ (TensorCube H → ℂ) where
   carrier := {v | IsSymmetricTensorThree v}
@@ -53,7 +45,6 @@ noncomputable def symmetricSubspaceThreeCopies (H : Type*) :
     intro c v hv π x
     simp [Pi.smul_apply, hv π x]
 
-/-- Dimension of the fixed-point subspace. -/
 noncomputable def symmetricSubspaceDimensionThreeCopies
     (H : Type*) [Fintype H] : ℕ :=
   Module.finrank ℂ (symmetricSubspaceThreeCopies H)

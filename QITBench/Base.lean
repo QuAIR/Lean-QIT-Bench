@@ -15,12 +15,4 @@ public import QITBench.Base.Measurement
 public import QITBench.Base.POVMProbability
 public import QITBench.Base.Components
 
-/-!
-# QIT core
-
-Finite-dimensional cross-domain proof-kernel objects for local QIT development.
-
-Topic-heavy theorem surfaces are intentionally outside this benchmark Base seed.
--/
-
 @[expose] public section

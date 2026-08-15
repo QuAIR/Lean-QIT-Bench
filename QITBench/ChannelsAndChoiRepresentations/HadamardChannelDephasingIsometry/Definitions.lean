@@ -1,13 +1,12 @@
+/-
+Copyright (c) 2026 QuAIR.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: QuAIR Team
+-/
+
 module
 
 public import QITBench.Base
-
-/-!
-# Hadamard Channel from a Dephasing Isometry
-
-The environment trace is the Base `partialTraceB`; positivity of the Hadamard
-matrix is expressed by `Matrix.PosSemidef`.
--/
 
 @[expose] public section
 
